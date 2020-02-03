@@ -13,7 +13,7 @@ exports.up = function(knex) {
         .unique()
         .notNullable();
       users.text("password").notNullable();
-      users.enum("roles", ["Student", "Helper"]).notNullable();
+      users.enum("role", ["Student", "Helper"]).notNullable();
     })
     .createTable("categories", categories => {
       categories.increments();

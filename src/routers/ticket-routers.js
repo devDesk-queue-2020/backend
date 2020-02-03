@@ -26,7 +26,6 @@ router.get("/:id", (req, res) => {
 router.get("/category/:id", (req, res) => {
   Tickets.getTicketByCategory(req.params.id)
     .then(tickets => {
-      console.log(tickets);
       res.status(200).json(tickets);
     })
     .catch(error => {
@@ -39,7 +38,9 @@ router.get("/category/:id", (req, res) => {
 router.post("/", (req, res) => {
   Tickets.addNewTicket(req.body)
     .then(id => {
-      console.log(id);
+      res
+        .status(201)
+        .json(`New ticket was successfully created with the id: ${id} `);
     })
     .catch(error => {
       res.status(500).json(error.message);

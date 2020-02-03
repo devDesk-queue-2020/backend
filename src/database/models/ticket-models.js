@@ -27,5 +27,7 @@ function getTicketByCategory(category) {
 
 async function addNewTicket(ticket) {
   const [id] = await db("tickets").insert(ticket);
-  return db("tickets").where({ id });
+  return db("tickets")
+    .where({ id })
+    .first();
 }

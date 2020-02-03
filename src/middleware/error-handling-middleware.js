@@ -32,11 +32,11 @@ function validateNewTicketBody(req, res, next) {
   ) {
     next();
   } else if (
-    req.body.title ||
-    req.body.content ||
-    req.body.status ||
-    req.body.category_id ||
-    req.body.student_id
+    !req.body.title ||
+    !req.body.content ||
+    !req.body.status ||
+    !req.body.category_id ||
+    !req.body.student_id
   ) {
     res
       .status(400)
@@ -62,11 +62,11 @@ function validateNewUserBody(req, res, next) {
   ) {
     next();
   } else if (
-    req.body.first_name ||
-    req.body.last_name ||
-    req.body.username ||
-    req.body.password ||
-    req.body.role
+    !req.body.first_name ||
+    !req.body.last_name ||
+    !req.body.username ||
+    !req.body.password ||
+    !req.body.role
   ) {
     res
       .status(400)

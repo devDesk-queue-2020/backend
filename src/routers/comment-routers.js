@@ -1,10 +1,10 @@
 const router = require("express").Router();
-const Comments = require("../database/models/comment-models");
+const Comment = require("../database/models/comment-models");
 
 // ---------------- GET ---------------- //
 
 router.get("/all", (req, res) => {
-  Comments.getAllComments()
+  Comment.getAllComments()
     .then(comments => {
       res.status(200).json(comments);
     })
@@ -14,7 +14,7 @@ router.get("/all", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  Comments.getCommentById(req.params.id)
+  Comment.getCommentById(req.params.id)
     .then(comment => {
       res.status(200).json(comment);
     })
@@ -26,9 +26,11 @@ router.get("/:id", (req, res) => {
 // ---------------- POST ---------------- //
 
 router.post("/", (req, res) => {
-  Comments.addNewComment(req.body)
+  Comment.addNewComment(req.body)
     .then(id => {
-      console.log(id);
+      res
+        .status(201)
+        .json(`New comment was successfully created with the id: ${id} `);
     })
     .catch(error => {
       res.status(500).json(error.message);
