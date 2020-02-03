@@ -1,9 +1,28 @@
-const Users = require("../models/user-models");
-const Tickets = require("../models/ticket-models");
 const jwt = require("jsonwebtoken");
 
-module.exports = {
-  authenticateUser
-};
+function auth(req, res, next) {
+  const token = req.headers.authorization
+    
+    if (token) {
+        jwt.verify(
+          token,
+          process.env.JWT_SECRET || 'thesecret',
+          (err, decoded) => {
+            if(err) {
+              res.status(401).json({
+                message: 'Token invalid! Access denied!'
+              })
+            } else {
+              req.decodedToken = decoded;
+              next();
+            }
+          }
+        )
+      } else {
+        res.status(400).json({ message: 'No credentials provided' });
+      }
+}
 
-function authenticateUser(req, res, next) {}
+module.exports = {
+  auth
+};
