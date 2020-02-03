@@ -1,12 +1,12 @@
 const router = require("express").Router();
-const Tickets = require("../database/models/ticket-models");
+const Comments = require("../database/models/comment-models");
 
 // ---------------- GET ---------------- //
 
 router.get("/all", (req, res) => {
-  Tickets.getAllTickets()
-    .then(tickets => {
-      res.status(200).json(tickets);
+  Comments.getAllComments()
+    .then(comments => {
+      res.status(200).json(comments);
     })
     .catch(error => {
       res.status(500).json(error.message);
@@ -14,20 +14,9 @@ router.get("/all", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  Tickets.getTicketById(req.params.id)
-    .then(ticket => {
-      res.status(200).json(ticket);
-    })
-    .catch(error => {
-      res.status(500).json(error.message);
-    });
-});
-
-router.get("/category/:id", (req, res) => {
-  Tickets.getTicketByCategory(req.params.id)
-    .then(tickets => {
-      console.log(tickets);
-      res.status(200).json(tickets);
+  Comments.getCommentById(req.params.id)
+    .then(comment => {
+      res.status(200).json(comment);
     })
     .catch(error => {
       res.status(500).json(error.message);
@@ -37,7 +26,7 @@ router.get("/category/:id", (req, res) => {
 // ---------------- POST ---------------- //
 
 router.post("/", (req, res) => {
-  Tickets.addNewTicket(req.body)
+  Comments.addNewComment(req.body)
     .then(id => {
       console.log(id);
     })
