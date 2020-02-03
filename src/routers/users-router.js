@@ -67,7 +67,6 @@ router.post("/login", validateUsername, validateLoginBody, (req, res) => {
   UserDB.findUserBy({ username })
     .first()
     .then(user => {
-      console.log(user);
       if (user && bcrypt.compareSync(password, user.password)) {
         if (user.role === "Helper") {
           const token = makeToken(user, "staffHelper");
