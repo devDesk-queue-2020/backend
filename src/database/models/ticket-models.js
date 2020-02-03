@@ -14,7 +14,9 @@ function getAllTickets() {
 }
 
 function getTicketById(id) {
-  return db("tickets").where({ id });
+  return db("tickets")
+    .where({ id })
+    .first();
 }
 
 function getTicketByCategory(category) {
@@ -23,6 +25,7 @@ function getTicketByCategory(category) {
 
 // ---------------- POST ---------------- //
 
-function addNewTicket(ticket) {
-  return db("tickets").insert(ticket);
+async function addNewTicket(ticket) {
+  const [id] = await db("tickets").insert(ticket);
+  return db("tickets").where({ id });
 }
