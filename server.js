@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 
-const routes = require("./data/routers");
-const middleware = require("./data/middleware");
+const routes = require("./src/routers");
+const middleware = require("./src/middleware");
 
 const server = express();
 
