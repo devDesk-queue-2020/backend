@@ -1,4 +1,4 @@
 const router = require("express").Router();
-const User = require("../models/user-models");
+const Tickets = require("../database/models/ticket-models");
 
 module.exports = router;

@@ -4,7 +4,7 @@ module.exports = {
   development: {
     client: "sqlite3",
     connection: {
-      filename: "./data/users"
+      filename: "./data/database/users"
     },
     useNullAsDefault: true,
     migrations: {
@@ -18,15 +18,15 @@ module.exports = {
     client: "pg",
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: "./data/migrations"
+      directory: "./data/database/migrations"
     },
-    seeds: { directory: "./data/seeds" }
+    seeds: { directory: "./data/database/seeds" }
   },
 
   testing: {
     client: "sqlite3",
     connection: {
-      filename: "./data/testing-users"
+      filename: "./data/database/testing-users"
     },
     useNullAsDefault: true,
     migrations: {
