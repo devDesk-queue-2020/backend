@@ -21,10 +21,25 @@ function addUser(user) {
     .insert(user)
 }
 
+function deleteUser(id) {
+  return db('users')
+  .where({ id })
+  .first()
+  .del()
+}
+
+function updateUser(id, changes) {
+  return db("users")
+    .where({ id })
+    .update(changes);
+}
+
 module.exports = {
   getAllUsers,
   addUser,
   findUserBy,
-  findUserById
+  findUserById,
+  deleteUser,
+  updateUser
 };
 

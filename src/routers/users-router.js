@@ -84,5 +84,55 @@ router.get('/', auth, (req, res) => {
         })
 })
 
+router.get('/:id', auth, (req, res) => {
+    const { id } = req.params
+
+    UserDB.findUserById(id)
+        .then(user => {
+            res.status(200).json({
+                userData: user
+            })
+        })
+        .catch(error => {
+            res.status(500).json({
+                error: "Server error"
+            })
+        })
+})
+
+router.delete('/:id', auth, (req, res) => {
+  const { id } = req.params
+
+  UserDB.deleteUser(id)
+      .then(user => {
+          res.status(200).json({
+              success: "User deleted"
+          })
+      })
+      .catch(error => {
+          res.status(500).json({
+              error: "Server error"
+          })
+      })
+})
+
+router.put('/:id', auth, (req, res) => {
+  const { id } = req.params
+  const changes  = req.body
+
+  UserDB.updateUser(id, changes)
+      .then(user => {
+          res.status(200).json({
+              success: "User updated",
+              newUserData: user
+          })
+      })
+      .catch(error => {
+          res.status(500).json({
+              error: "Server error"
+          })
+      })
+})
+
 module.exports = router;
 
