@@ -1,12 +1,12 @@
 const router = require("express").Router();
-const Comment = require("../database/models/comment-models");
+const Category = require("../database/models/categories-models");
 
 // ---------------- GET ---------------- //
 
 router.get("/", (req, res) => {
-  Comment.getAllComments()
-    .then(comments => {
-      res.status(200).json(comments);
+  Category.getAllCategories()
+    .then(catagories => {
+      res.status(200).json(catagories);
     })
     .catch(error => {
       res.status(500).json(error.message);
@@ -14,9 +14,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  Comment.getCommentById(req.params.id)
-    .then(comment => {
-      res.status(200).json(comment);
+  Category.getCategoryById(req.params.id)
+    .then(catagory => {
+      res.status(200).json(catagory);
     })
     .catch(error => {
       res.status(500).json(error.message);
@@ -26,11 +26,11 @@ router.get("/:id", (req, res) => {
 // ---------------- POST ---------------- //
 
 router.post("/", (req, res) => {
-  Comment.addNewComment(req.body)
-    .then(comment => {
+  Category.addNewCategory(req.body)
+    .then(category => {
       res
         .status(201)
-        .json({ message: `New comment was successfully created`, comment });
+        .json({ message: `New category was successfully created`, category });
     })
     .catch(error => {
       res.status(500).json(error.message);

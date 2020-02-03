@@ -3,7 +3,7 @@ const Tickets = require("../database/models/ticket-models");
 
 // ---------------- GET ---------------- //
 
-router.get("/all", (req, res) => {
+router.get("/", (req, res) => {
   Tickets.getAllTickets()
     .then(tickets => {
       res.status(200).json(tickets);
@@ -37,10 +37,10 @@ router.get("/category/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   Tickets.addNewTicket(req.body)
-    .then(id => {
+    .then(ticket => {
       res
         .status(201)
-        .json(`New ticket was successfully created with the id: ${id} `);
+        .json({ message: `New category was successfully created`, ticket });
     })
     .catch(error => {
       res.status(500).json(error.message);

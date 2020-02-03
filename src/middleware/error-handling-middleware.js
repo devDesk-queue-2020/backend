@@ -10,7 +10,7 @@ module.exports = {
 function validateUsername(req, res, next) {
   Users.getAllUsers()
     .then(users => {
-      let usernames = users.map(curr => curr.username);
+      const usernames = users.map(curr => curr.username);
       if (usernames.includes(req.body.username)) {
         next();
       } else {
