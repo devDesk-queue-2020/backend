@@ -1,9 +1,13 @@
 const router = require("express").Router();
 const Comment = require("../database/models/comment-models");
+const {
+  validateCommentBody
+} = require("../middleware/error-handling-middleware");
+const { auth } = require("../middleware/authentication-middleware");
 
 // ---------------- GET ---------------- //
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   Comment.getAllComments()
     .then(comments => {
       res.status(200).json(comments);
@@ -13,7 +17,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", auth, (req, res) => {
   Comment.getCommentById(req.params.id)
     .then(comment => {
       res.status(200).json(comment);
@@ -25,7 +29,7 @@ router.get("/:id", (req, res) => {
 
 // ---------------- POST ---------------- //
 
-router.post("/", (req, res) => {
+router.post("/", auth, validateCommentBody, (req, res) => {
   Comment.addNewComment(req.body)
     .then(comment => {
       res

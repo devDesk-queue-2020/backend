@@ -1,11 +1,14 @@
 const User = require("../database/models/user-models");
+const Category = require("../database/models/categories-models");
 
 module.exports = {
   validateUsername,
   validateUniqueUsername,
   validateNewTicketBody,
   validateNewUserBody,
-  validateLoginBody
+  validateLoginBody,
+  validateCommentBody,
+  validateNewCategoryBody
 };
 
 function validateUsername(req, res, next) {
@@ -108,5 +111,34 @@ function validateLoginBody(req, res, next) {
     res
       .status(400)
       .json(`You must provide your personal username and valid password`);
+  }
+}
+
+function validateCommentBody(req, res, next) {
+  if (req.body.content && req.body.author_id && req.body.ticket_id) {
+    next();
+  } else if (!req.body.content || !req.body.author_id || !req.body.ticket_id) {
+    res
+      .status(400)
+      .json(`Please ensure you provide content, an author id and ticket id`);
+  } else {
+    res
+      .status(400)
+      .json(`You must provide content, an author id and ticket id`);
+  }
+}
+
+function validateNewCategoryBody(req, res, next) {
+  if (req.body.category_name) {
+    Category.getAllCategories().then(categories => {
+      const categoryNames = categories.map(curr => curr.category_name);
+      if (categoryNames.includes(req.body.category_name)) {
+        res.status(400).json(`You must provide a new unqiue category_name`);
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.status(400).json(`You must provide a category_name`);
   }
 }
