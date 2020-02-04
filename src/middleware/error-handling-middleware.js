@@ -59,13 +59,13 @@ function validateNewTicketBody(req, res, next) {
     res
       .status(400)
       .json(
-        `Please provide a valide title, content, status, category and student`
+        `Please provide a valid title, content, status, category and student`
       );
   } else {
     res
       .status(400)
       .json(
-        `You must provide a valide title, content, status, category and student`
+        `You must provide a valid title, content, status, category and student`
       );
   }
 }

@@ -5,7 +5,9 @@ module.exports = {
   getTicketById,
   getTicketsByStudent,
   getTicketsByCategory,
-  addNewTicket
+  addNewTicket,
+  updateTicket,
+  deleteById
 };
 
 // ---------------- GET ---------------- //
@@ -77,15 +79,62 @@ function getTicketsByCategory(category) {
     .where("category_name", "=", category);
 }
 
-// ---------------- POST ---------------- //
+// ---------------- INSERT ---------------- //
 
 async function addNewTicket(ticket) {
   const [id] = await db("tickets").insert(ticket);
   return db("tickets")
-    .where({ id })
+    .join("users", function() {
+      this.on("users.id", "tickets.student_id").orOn(
+        "users.id",
+        "tickets.helper_id"
+      );
+    })
+    .join("categories", "categories.id", "tickets.category_id")
+    .select(
+      "tickets.id as ticket_id",
+      "tickets.title",
+      "tickets.content",
+      "tickets.created_by",
+      "tickets.status",
+      "users.username",
+      "categories.category_name"
+    )
+    .where("ticket_id", "=", id)
     .first();
 }
 
-// ---------------- PUT ---------------- //
+// ---------------- UPDATE ---------------- //
+
+async function updateTicket(id, ticket) {
+  const success = await db("tickets")
+    .where({ id })
+    .update(ticket);
+  return db("tickets")
+    .join("users", function() {
+      this.on("users.id", "tickets.student_id").orOn(
+        "users.id",
+        "tickets.helper_id"
+      );
+    })
+    .join("categories", "categories.id", "tickets.category_id")
+    .select(
+      "tickets.id as ticket_id",
+      "tickets.title",
+      "tickets.content",
+      "tickets.created_by",
+      "tickets.status",
+      "users.username",
+      "categories.category_name"
+    )
+    .where("ticket_id", "=", id)
+    .first();
+}
 
 // ---------------- DELETE ---------------- //
+
+function deleteById(id) {
+  return db("tickets")
+    .where({ id })
+    .del();
+}
