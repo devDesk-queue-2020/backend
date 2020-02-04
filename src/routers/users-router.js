@@ -71,7 +71,6 @@ router.post("/login", validateUsername, validateLoginBody, (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         if (user.role === "Helper") {
           const token = makeToken(user, "staffHelper");
-
           res
             .status(200)
             .json({ message: `Welcome ${user.username}!`, token: token });
@@ -108,11 +107,19 @@ router.get("/", helperAuth, (req, res) => {
 router.get("/:id", auth, (req, res) => {
   const { id } = req.params;
 
+  let tickets;
+
+  Ticket.getTicketsByStudent(id)
+    .then(studentTickets => {
+      tickets = studentTickets;
+    })
+    .catch(error => {
+      res.status(500).json(error - message);
+    });
+
   UserDB.findUserById(id)
     .then(user => {
-      res.status(200).json({
-        userData: user
-      });
+      res.status(200).json({ userData: { ...user, userTickets: tickets } });
     })
     .catch(error => {
       res.status(500).json({
@@ -142,11 +149,17 @@ router.put("/:id", auth, (req, res) => {
   const changes = req.body;
 
   UserDB.updateUser(id, changes)
-    .then(user => {
-      res.status(200).json({
-        success: "User updated",
-        newUserData: user
-      });
+    .then(success => {
+      UserDB.findUserById(id)
+        .then(user => {
+          res.status(200).json({
+            success: "User updated",
+            newUserData: user
+          });
+        })
+        .catch(error => {
+          res.status(500).json(error.message);
+        });
     })
     .catch(error => {
       res.status(500).json({

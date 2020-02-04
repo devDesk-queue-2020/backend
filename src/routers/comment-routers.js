@@ -32,13 +32,33 @@ router.get("/:id", auth, (req, res) => {
 router.post("/", auth, validateCommentBody, (req, res) => {
   Comment.addNewComment(req.body)
     .then(comment => {
-      res
-        .status(201)
-        .json({ message: `New comment was successfully created`, comment });
+      res.status(201).json(comment);
     })
     .catch(error => {
       res.status(500).json(error.message);
     });
 });
+
+// ---------------- PUT ---------------- //
+
+router.put("/:id", auth, validateCommentBody, (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  Comment.updateComment(id, changes)
+    .then(comment => {
+      res
+        .status(201)
+        .json({ message: `Comment was successfully updated`, comment });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: error.message,
+        param: id,
+        other: changes
+      });
+    });
+});
+
+// ---------------- DELETE ---------------- //
 
 module.exports = router;

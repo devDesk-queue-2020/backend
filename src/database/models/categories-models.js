@@ -3,7 +3,8 @@ const db = require("../dbConfig");
 module.exports = {
   getAllCategories,
   getCategoryById,
-  addNewCategory
+  addNewCategory,
+  deleteById
 };
 
 // ---------------- GET ---------------- //
@@ -18,11 +19,19 @@ function getCategoryById(id) {
     .first();
 }
 
-// ---------------- POST ---------------- //
+// ---------------- INSERT ---------------- //
 
 async function addNewCategory(category_name) {
   const [id] = await db("categories").insert(category_name);
   return db("categories")
     .where({ id })
     .first();
+}
+
+// ---------------- DELETE ---------------- //
+
+function deleteById(id) {
+  return db("categories")
+    .where({ id })
+    .del();
 }
