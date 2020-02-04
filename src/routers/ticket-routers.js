@@ -1,9 +1,13 @@
 const router = require("express").Router();
 const Tickets = require("../database/models/ticket-models");
+const {
+  validateNewTicketBody
+} = require("../middleware/error-handling-middleware");
+const { auth } = require("../middleware/authentication-middleware");
 
 // ---------------- GET ---------------- //
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   Tickets.getAllTickets()
     .then(tickets => {
       res.status(200).json(tickets);
@@ -13,7 +17,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", auth, (req, res) => {
   Tickets.getTicketById(req.params.id)
     .then(ticket => {
       res.status(200).json(ticket);
@@ -23,7 +27,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.get("/category/:id", (req, res) => {
+router.get("/category/:id", auth, (req, res) => {
   Tickets.getTicketByCategory(req.params.id)
     .then(tickets => {
       res.status(200).json(tickets);
@@ -35,7 +39,7 @@ router.get("/category/:id", (req, res) => {
 
 // ---------------- POST ---------------- //
 
-router.post("/", (req, res) => {
+router.post("/", auth, validateNewTicketBody, (req, res) => {
   Tickets.addNewTicket(req.body)
     .then(ticket => {
       res

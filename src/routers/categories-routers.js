@@ -1,9 +1,13 @@
 const router = require("express").Router();
 const Category = require("../database/models/categories-models");
+const { auth } = require("../middleware/authentication-middleware");
+const {
+  validateNewCategoryBody
+} = require("../middleware/error-handling-middleware");
 
 // ---------------- GET ---------------- //
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   Category.getAllCategories()
     .then(catagories => {
       res.status(200).json(catagories);
@@ -13,7 +17,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", auth, (req, res) => {
   Category.getCategoryById(req.params.id)
     .then(catagory => {
       res.status(200).json(catagory);
@@ -25,7 +29,7 @@ router.get("/:id", (req, res) => {
 
 // ---------------- POST ---------------- //
 
-router.post("/", (req, res) => {
+router.post("/", auth, validateNewCategoryBody, (req, res) => {
   Category.addNewCategory(req.body)
     .then(category => {
       res
