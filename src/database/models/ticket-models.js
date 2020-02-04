@@ -77,7 +77,7 @@ function getTicketsByCategory(category) {
     .where("category_name", "=", category);
 }
 
-// ---------------- POST ---------------- //
+// ---------------- INSERT ---------------- //
 
 async function addNewTicket(ticket) {
   const [id] = await db("tickets").insert(ticket);
@@ -86,6 +86,6 @@ async function addNewTicket(ticket) {
     .first();
 }
 
-// ---------------- PUT ---------------- //
+// ---------------- UPDATE ---------------- //
 
 // ---------------- DELETE ---------------- //
