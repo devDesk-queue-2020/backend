@@ -22,7 +22,7 @@ function getCategoryById(id) {
 // ---------------- INSERT ---------------- //
 
 async function addNewCategory(category_name) {
-  const [id] = await db("categories").insert(category_name);
+  const [id] = await db("categories").insert(category_name, "id");
   return db("categories")
     .where({ id })
     .first();

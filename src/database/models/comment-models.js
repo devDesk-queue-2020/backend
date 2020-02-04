@@ -39,7 +39,7 @@ function getCommentById(id) {
 // ---------------- INSERT ---------------- //
 
 async function addNewComment(comment) {
-  const [id] = await db("comments").insert(comment);
+  const [id] = await db("comments").insert(comment, "id");
 
   return db("comments")
     .join("users", "comments.author_id", "users.id")
