@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Category = require("../database/models/categories-models");
-const { auth } = require("../middleware/authentication-middleware");
+const { auth, helperAuth } = require("../middleware/authentication-middleware");
 const {
   validateNewCategoryBody
 } = require("../middleware/error-handling-middleware");
@@ -35,6 +35,24 @@ router.post("/", auth, validateNewCategoryBody, (req, res) => {
       res
         .status(201)
         .json({ message: `New category was successfully created`, category });
+    })
+    .catch(error => {
+      res.status(500).json(error.message);
+    });
+});
+
+// ---------------- DELETE ---------------- //
+
+router.delete("/:id", helperAuth, (req, res) => {
+  Category.deleteById(req.params.id)
+    .then(success => {
+      if (success === 1) {
+        res
+          .status(202)
+          .json({ message: `Category has been successfully deleted` });
+      } else {
+        res.status(404).json({ message: `There is no category with this id` });
+      }
     })
     .catch(error => {
       res.status(500).json(error.message);

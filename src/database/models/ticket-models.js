@@ -85,3 +85,7 @@ async function addNewTicket(ticket) {
     .where({ id })
     .first();
 }
+
+// ---------------- PUT ---------------- //
+
+// ---------------- DELETE ---------------- //

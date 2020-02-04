@@ -41,4 +41,8 @@ router.post("/", auth, validateCommentBody, (req, res) => {
     });
 });
 
+// ---------------- PUT ---------------- //
+
+// ---------------- DELETE ---------------- //
+
 module.exports = router;

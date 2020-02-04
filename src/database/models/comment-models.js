@@ -9,20 +9,48 @@ module.exports = {
 // ---------------- GET ---------------- //
 
 function getAllComments() {
-  return db("comments");
+  return db("comments")
+    .join("users", "comments.author_id", "users.id")
+    .select(
+      "comments.id",
+      "comments.content",
+      "users.username as author.id",
+      "comments.ticket_id",
+      "comments.created_by"
+    );
 }
 
 function getCommentById(id) {
   return db("comments")
-    .where({ id })
+    .join("users", "comments.author_id", "users.id")
+    .select(
+      "comments.id as comment_id",
+      "comments.content",
+      "users.username as author.id",
+      "comments.ticket_id",
+      "comments.created_by"
+    )
+    .where("comment_id", "=", id)
     .first();
 }
 
-// ---------------- POST ---------------- //
+// ---------------- INSERT ---------------- //
 
 async function addNewComment(comment) {
   const [id] = await db("comments").insert(comment);
   return db("comments")
-    .where({ id })
+    .join("users", "comments.author_id", "users.id")
+    .select(
+      "comments.id as comment_id",
+      "comments.content",
+      "users.username as author.id",
+      "comments.ticket_id",
+      "comments.created_by"
+    )
+    .where("comment_id", "=", id)
     .first();
 }
+
+// ---------------- UPDATE ---------------- //
+
+// ---------------- DELETE ---------------- //

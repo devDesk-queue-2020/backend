@@ -52,4 +52,8 @@ router.post("/", auth, validateNewTicketBody, (req, res) => {
     });
 });
 
+// ---------------- PUT ---------------- //
+
+// ---------------- DELETE ---------------- //
+
 module.exports = router;
