@@ -4,19 +4,51 @@ module.exports = {
   getAllTickets,
   getTicketById,
   getTicketsByStudent,
-  getTicketByCategory,
+  getTicketsByCategory,
   addNewTicket
 };
 
 // ---------------- GET ---------------- //
 
 function getAllTickets() {
-  return db("tickets");
+  return db("tickets")
+    .join("users", function() {
+      this.on("users.id", "tickets.student_id").orOn(
+        "users.id",
+        "tickets.helper_id"
+      );
+    })
+    .join("categories", "categories.id", "tickets.category_id")
+    .select(
+      "tickets.id",
+      "tickets.title",
+      "tickets.content",
+      "tickets.created_by",
+      "tickets.status",
+      "users.username",
+      "categories.category_name"
+    );
 }
 
 function getTicketById(id) {
   return db("tickets")
-    .where({ id })
+    .join("users", function() {
+      this.on("users.id", "tickets.student_id").orOn(
+        "users.id",
+        "tickets.helper_id"
+      );
+    })
+    .join("categories", "categories.id", "tickets.category_id")
+    .select(
+      "tickets.id as ticket_id",
+      "tickets.title",
+      "tickets.content",
+      "tickets.created_by",
+      "tickets.status",
+      "users.username",
+      "categories.category_name"
+    )
+    .where("ticket_id", "=", id)
     .first();
 }
 
@@ -24,8 +56,25 @@ function getTicketsByStudent(student_id) {
   return db("tickets").where({ student_id });
 }
 
-function getTicketByCategory(category) {
-  return db("tickets").where({ category_id: category });
+function getTicketsByCategory(category) {
+  return db("tickets")
+    .join("users", function() {
+      this.on("users.id", "tickets.student_id").orOn(
+        "users.id",
+        "tickets.helper_id"
+      );
+    })
+    .join("categories", "categories.id", "tickets.category_id")
+    .select(
+      "tickets.id as ticket_id",
+      "tickets.title",
+      "tickets.content",
+      "tickets.created_by",
+      "tickets.status",
+      "users.username",
+      "categories.category_name"
+    )
+    .where("category_name", "=", category);
 }
 
 // ---------------- POST ---------------- //

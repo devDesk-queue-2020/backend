@@ -27,8 +27,9 @@ router.get("/:id", auth, (req, res) => {
     });
 });
 
-router.get("/category/:id", auth, (req, res) => {
-  Tickets.getTicketByCategory(req.params.id)
+router.get("/category/:category", auth, (req, res) => {
+  const cat = req.params.category;
+  Tickets.getTicketsByCategory(req.params.category)
     .then(tickets => {
       res.status(200).json(tickets);
     })
