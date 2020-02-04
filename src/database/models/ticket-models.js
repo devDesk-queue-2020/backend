@@ -3,6 +3,7 @@ const db = require("../dbConfig");
 module.exports = {
   getAllTickets,
   getTicketById,
+  getTicketByStudent,
   getTicketByCategory,
   addNewTicket
 };
@@ -16,6 +17,12 @@ function getAllTickets() {
 function getTicketById(id) {
   return db("tickets")
     .where({ id })
+    .first();
+}
+
+function getTicketByStudent(id) {
+  return db("tickets")
+    .where({ student_id: id })
     .first();
 }
 
