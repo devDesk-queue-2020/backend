@@ -25,7 +25,7 @@ function findUserBy(filter) {
 }
 
 function addUser(user) {
-  return db("users").insert(user);
+  return db("users").insert(user, "id");
 }
 
 function deleteUser(id) {
