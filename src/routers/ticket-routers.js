@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Tickets = require("../database/models/ticket-models");
+const Ticket = require("../database/models/ticket-models");
 const {
   validateNewTicketBody
 } = require("../middleware/error-handling-middleware");
@@ -8,7 +8,7 @@ const { auth } = require("../middleware/authentication-middleware");
 // ---------------- GET ---------------- //
 
 router.get("/", auth, (req, res) => {
-  Tickets.getAllTickets()
+  Ticket.getAllTickets()
     .then(tickets => {
       res.status(200).json(tickets);
     })
@@ -18,7 +18,7 @@ router.get("/", auth, (req, res) => {
 });
 
 router.get("/:id", auth, (req, res) => {
-  Tickets.getTicketById(req.params.id)
+  Ticket.getTicketById(req.params.id)
     .then(ticket => {
       res.status(200).json(ticket);
     })
@@ -28,8 +28,7 @@ router.get("/:id", auth, (req, res) => {
 });
 
 router.get("/category/:category", auth, (req, res) => {
-  const cat = req.params.category;
-  Tickets.getTicketsByCategory(req.params.category)
+  Ticket.getTicketsByCategory(req.params.category)
     .then(tickets => {
       res.status(200).json(tickets);
     })
@@ -41,7 +40,7 @@ router.get("/category/:category", auth, (req, res) => {
 // ---------------- POST ---------------- //
 
 router.post("/", auth, validateNewTicketBody, (req, res) => {
-  Tickets.addNewTicket(req.body)
+  Ticket.addNewTicket(req.body)
     .then(ticket => {
       res
         .status(201)
@@ -54,6 +53,37 @@ router.post("/", auth, validateNewTicketBody, (req, res) => {
 
 // ---------------- PUT ---------------- //
 
+router.put("/:id", auth, validateNewTicketBody, (req, res) => {
+  Ticket.updateTicket(req.params.id, req.body)
+    .then(ticket => {
+      res
+        .status(201)
+        .json({ message: `New category was successfully created`, ticket });
+    })
+    .catch(error => {
+      res.status(500).json(error.message);
+    });
+});
+
 // ---------------- DELETE ---------------- //
+
+router.delete("/:id", auth, (req, res) => {
+  Ticket.deleteById(req.params.id)
+
+    .then(success => {
+      if (success === 1) {
+        res
+          .status(202)
+          .json({ message: `Ticket has been successfully deleted` });
+      } else {
+        res.status(404).json({ message: `There are no tickets with this id` });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: error.message
+      });
+    });
+});
 
 module.exports = router;
