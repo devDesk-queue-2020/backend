@@ -1,5 +1,5 @@
 .vscode
-app_data_tables.db3
+.sqlite3
 
 # Logs
 logs
