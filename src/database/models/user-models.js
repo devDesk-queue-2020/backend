@@ -1,12 +1,20 @@
 const db = require("../dbConfig");
 
 function getAllUsers() {
-  return db("users");
+  return db("users").select(
+    "id",
+    "first_name",
+    "last_name",
+    "username",
+    "email",
+    "role"
+  );
 }
 
 function findUserById(id) {
   return db("users")
     .where({ id })
+    .select("id", "first_name", "last_name", "username", "email", "role")
     .first();
 }
 
@@ -21,10 +29,10 @@ function addUser(user) {
 }
 
 function deleteUser(id) {
-  return db('users')
-  .where({ id })
-  .first()
-  .del()
+  return db("users")
+    .where({ id })
+    .first()
+    .del();
 }
 
 function updateUser(id, changes) {
