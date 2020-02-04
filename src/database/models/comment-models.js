@@ -50,7 +50,8 @@ async function addNewComment(comment) {
       "comments.ticket_id",
       "comments.created_by"
     )
-    .where("comments.id", "=", id);
+    .where("comments.id", "=", id)
+    .first();
 }
 
 // ---------------- UPDATE ---------------- //
