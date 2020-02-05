@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Comment = require("../database/models/comment-models");
+const Ticket = require("../database/models/ticket-models");
 const {
   validateCommentBody
 } = require("../middleware/error-handling-middleware");
@@ -32,6 +33,7 @@ router.get("/:id", auth, (req, res) => {
 router.post("/", auth, validateCommentBody, (req, res) => {
   Comment.addNewComment(req.body)
     .then(comment => {
+      Ticket.updateTicketStatus(req.body.ticket_id);
       res.status(201).json(comment);
     })
     .catch(error => {
@@ -47,6 +49,7 @@ router.put("/:id", auth, validateCommentBody, (req, res) => {
   Comment.updateComment(id, changes)
     .then(comment => {
       if (comment) {
+        Ticket.updateTicketStatus(req.body.ticket_id);
         res
           .status(202)
           .json({ message: `Comment has been successfully updated`, comment });

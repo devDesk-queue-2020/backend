@@ -7,7 +7,8 @@ module.exports = {
   getTicketsByCategory,
   addNewTicket,
   updateTicket,
-  deleteById
+  deleteById,
+  updateTicketStatus
 };
 
 // ---------------- GET ---------------- //
@@ -129,6 +130,12 @@ async function updateTicket(id, ticket) {
     )
     .where("ticket_id", "=", id)
     .first();
+}
+
+function updateTicketStatus(id) {
+  return db("ticket")
+    .where({ id })
+    .update({ status: "Processing" });
 }
 
 // ---------------- DELETE ---------------- //

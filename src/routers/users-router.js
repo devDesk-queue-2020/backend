@@ -78,7 +78,6 @@ router.post("/login", validateUsername, validateLoginBody, (req, res) => {
           });
         } else {
           const token = makeToken(user, "Student");
-
           res.status(200).json({
             message: `Welcome ${user.username}!`,
             token: token
