@@ -14,7 +14,8 @@ const {
 function makeToken(user, status) {
   const payload = {
     user_id: user.id,
-    username: user.username
+    username: user.username,
+    role: user.role
   };
 
   const options = {
@@ -71,23 +72,17 @@ router.post("/login", validateUsername, validateLoginBody, (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         if (user.role === "Helper") {
           const token = makeToken(user, "staffHelper");
-          res
-            .status(200)
-            .json({
-              message: `Welcome ${user.username}!`,
-              role: user.role,
-              token: token
-            });
+          res.status(200).json({
+            message: `Welcome ${user.username}!`,
+            token: token
+          });
         } else {
           const token = makeToken(user, "Student");
 
-          res
-            .status(200)
-            .json({
-              message: `Welcome ${user.username}!`,
-              role: user.role,
-              token: token
-            });
+          res.status(200).json({
+            message: `Welcome ${user.username}!`,
+            token: token
+          });
         }
       } else {
         res.status(401).json({ message: "Invalid Credentials" });
