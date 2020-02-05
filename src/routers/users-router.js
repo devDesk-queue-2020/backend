@@ -73,13 +73,21 @@ router.post("/login", validateUsername, validateLoginBody, (req, res) => {
           const token = makeToken(user, "staffHelper");
           res
             .status(200)
-            .json({ message: `Welcome ${user.username}!`, token: token });
+            .json({
+              message: `Welcome ${user.username}!`,
+              role: user.role,
+              token: token
+            });
         } else {
           const token = makeToken(user, "Student");
 
           res
             .status(200)
-            .json({ message: `Welcome ${user.username}!`, token: token });
+            .json({
+              message: `Welcome ${user.username}!`,
+              role: user.role,
+              token: token
+            });
         }
       } else {
         res.status(401).json({ message: "Invalid Credentials" });
