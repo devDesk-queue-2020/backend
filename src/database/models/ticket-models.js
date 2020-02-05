@@ -83,7 +83,7 @@ function getTicketsByCategory(category) {
 // ---------------- INSERT ---------------- //
 
 async function addNewTicket(ticket) {
-  const [id] = await db("tickets").insert(ticket);
+  const [id] = await db("tickets").insert(ticket, "id");
   return db("tickets")
     .join("users", function() {
       this.on("users.id", "tickets.student_id").orOn(
