@@ -44,7 +44,6 @@ function validateNewTicketBody(req, res, next) {
   if (
     req.body.title &&
     req.body.content &&
-    req.body.status &&
     req.body.category_id &&
     req.body.student_id
   ) {
@@ -52,7 +51,6 @@ function validateNewTicketBody(req, res, next) {
   } else if (
     !req.body.title ||
     !req.body.content ||
-    !req.body.status ||
     !req.body.category_id ||
     !req.body.student_id
   ) {
