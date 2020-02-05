@@ -4,7 +4,8 @@ module.exports = {
   getAllComments,
   getCommentById,
   addNewComment,
-  updateComment
+  updateComment,
+  deleteById
 };
 
 // ---------------- GET ---------------- //
@@ -38,7 +39,27 @@ function getCommentById(id) {
 // ---------------- INSERT ---------------- //
 
 async function addNewComment(comment) {
-  const id = await db("comments").insert(comment);
+  const [id] = await db("comments").insert(comment, "id");
+
+  return db("comments")
+    .join("users", "comments.author_id", "users.id")
+    .select(
+      "comments.id as comment_id",
+      "comments.content",
+      "users.username as author_id",
+      "comments.ticket_id",
+      "comments.created_by"
+    )
+    .where("comments.id", "=", id)
+    .first();
+}
+
+// ---------------- UPDATE ---------------- //
+
+async function updateComment(id, changes) {
+  const sucess = await db("comments")
+    .where({ id })
+    .update(changes);
   return db("comments")
     .join("users", "comments.author_id", "users.id")
     .select(
@@ -52,22 +73,10 @@ async function addNewComment(comment) {
     .first();
 }
 
-// ---------------- UPDATE ---------------- //
-
-async function updateComment(id, changes) {
-  const [updatedId] = await db("comments")
-    .where({ id })
-    .update(changes);
-  return db("comments")
-    .join("users", "comments.author_id", "users.id")
-    .select(
-      "comments.id as comment_id",
-      "comments.content",
-      "users.username as author_id",
-      "comments.ticket_id",
-      "comments.created_by"
-    )
-    .where("comment_id", "=", id);
-}
-
 // ---------------- DELETE ---------------- //
+
+function deleteById(id) {
+  return db("comments")
+    .where({ id })
+    .del();
+}

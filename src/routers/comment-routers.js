@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Comment = require("../database/models/comment-models");
+const Ticket = require("../database/models/ticket-models");
 const {
   validateCommentBody
 } = require("../middleware/error-handling-middleware");
@@ -32,6 +33,7 @@ router.get("/:id", auth, (req, res) => {
 router.post("/", auth, validateCommentBody, (req, res) => {
   Comment.addNewComment(req.body)
     .then(comment => {
+      Ticket.updateTicketStatus(req.body.ticket_id);
       res.status(201).json(comment);
     })
     .catch(error => {
@@ -42,23 +44,44 @@ router.post("/", auth, validateCommentBody, (req, res) => {
 // ---------------- PUT ---------------- //
 
 router.put("/:id", auth, validateCommentBody, (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   const changes = req.body;
   Comment.updateComment(id, changes)
     .then(comment => {
-      res
-        .status(201)
-        .json({ message: `Comment was successfully updated`, comment });
+      if (comment) {
+        Ticket.updateTicketStatus(req.body.ticket_id);
+        res
+          .status(202)
+          .json({ message: `Comment has been successfully updated`, comment });
+      } else {
+        res.status(404).json({ message: `There is no comment with this id` });
+      }
     })
     .catch(error => {
       res.status(500).json({
-        message: error.message,
-        param: id,
-        other: changes
+        message: error.message
       });
     });
 });
 
 // ---------------- DELETE ---------------- //
+
+router.delete("/:id", auth, (req, res) => {
+  Comment.deleteById(req.params.id)
+    .then(success => {
+      if (success === 1) {
+        res
+          .status(202)
+          .json({ message: `Comment has been successfully deleted` });
+      } else {
+        res.status(404).json({ message: `There is no comment with this id` });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: error.message
+      });
+    });
+});
 
 module.exports = router;

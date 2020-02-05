@@ -11,7 +11,7 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 
-// middleware(server);
+middleware(server);
 
 server.use(routes);
 
