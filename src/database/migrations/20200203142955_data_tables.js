@@ -24,7 +24,9 @@ exports.up = function(knex) {
       tickets.text("title").notNullable();
       tickets.text("content").notNullable();
       tickets.timestamp("created_by").defaultTo(knex.fn.now());
-      tickets.enum("status", ["Open", "Processing", "Closed"]).notNullable();
+      tickets
+        .enum("status", ["Open", "Processing", "Closed"])
+        .defaultTo("Open");
       tickets
         .integer("category_id")
         .unsigned()
