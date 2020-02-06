@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env DB_ENV=testing jest --verbose -- detectOpenHandles --testTimeout=10000 --forceExit",
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --testTimeout=10000 --forceExit",
     "start": "node index.js",
     "server": "nodemon index.js",
     "coveralls": "jest --coverage --testTimeout=10000 --detectOpenHandles && cat ./coverage/lcov.info | coveralls"
