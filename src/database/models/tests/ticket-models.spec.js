@@ -44,20 +44,17 @@ describe("ticket-models.js module", () => {
 
   describe("getAllTickets()", () => {
     it("returns an array of ticket objects", async () => {
-      Ticket.addNewTicket({
+      let tickets;
+      tickets = await Ticket.getAllTickets();
+      expect(tickets).toHaveLength(0);
+      await db("tickets").insert({
         title: "Test Ticket1",
         content: "This is a test Ticket",
         category_id: 1,
         student_id: 1
       });
-      Ticket.addNewTicket({
-        title: "Test Ticket 2",
-        content: " This is a test Ticket",
-        category_id: 3,
-        student_id: 6
-      });
-      const tickets = await db("tickets");
-      expect(tickets).toHaveLength(2);
+      tickets = await Ticket.getAllTickets();
+      expect(tickets).toHaveLength(1);
     });
   });
 

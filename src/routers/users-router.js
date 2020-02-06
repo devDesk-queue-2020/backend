@@ -11,7 +11,7 @@ const {
   validateLoginBody,
   validateRegexNewUser
 } = require("../middleware/error-handling-middleware");
-const sendMail = require('./mail')
+const sendMail = require("./mail");
 
 function makeToken(user, status) {
   const payload = {
@@ -51,12 +51,12 @@ router.post(
     UserDB.addUser(user)
       .then(saved => {
         sendMail(user.email)
-        .then(res => {
+          .then(res => {
             console.log(res);
           })
-        .catch(err => {
+          .catch(err => {
             console.log(err);
-        })
+          });
         res.status(201).json({
           success: "Successfully created new User",
           userData: { ...user, password: "ENCRYPTED" }
