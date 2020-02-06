@@ -44,6 +44,8 @@ To see every single endpoint, please check the Postman Docs here:
 
 ## Running the tests
 
+There are tests available for each endpoint, each model, and every single middleware.
+
 Install the Dev-Dependencies with 
 ```
 npm i -D
@@ -53,15 +55,9 @@ run the command:
 npm run tests
 ```
 
-### Tests that are available
+### Data-Structure
 
-There are tests available for each endpoint, each model, and every single middleware.
-
-Some examples:
-
-```
-Give an example
-```
+ADD SCREENSHOT HERE
 
 ## Deployment
 
