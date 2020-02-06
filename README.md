@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/devDesk-queue-2020/backend.svg?branch=develop)](https://travis-ci.org/devDesk-queue-2020/backend)
-
 [![Coverage Status](https://coveralls.io/repos/github/devDesk-queue-2020/backend/badge.svg?branch=develop)](https://coveralls.io/github/devDesk-queue-2020/backend?branch=develop)
-
 
 # DevDesk Backend by Lambda EU4 Team
 
@@ -49,6 +47,8 @@ To see every single endpoint, please check the Postman Docs here:
 
 ## Running the tests
 
+There are tests available for each endpoint, each model, and every single middleware.
+
 Install the Dev-Dependencies with 
 ```
 npm i -D
@@ -58,15 +58,9 @@ run the command:
 npm run tests
 ```
 
-### Tests that are available
+### Data-Structure
 
-There are tests available for each endpoint, each model, and every single middleware.
-
-Some examples:
-
-```
-Give an example
-```
+ADD SCREENSHOT HERE
 
 ## Deployment
 
@@ -103,6 +97,6 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for detail
 
 
