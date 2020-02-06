@@ -8,7 +8,8 @@ const {
   validateNewUserBody,
   validateUsername,
   validateUniqueUser,
-  validateLoginBody
+  validateLoginBody,
+  validateRegexNewUser
 } = require("../middleware/error-handling-middleware");
 
 function makeToken(user, status) {
@@ -33,6 +34,7 @@ function makeToken(user, status) {
 router.post(
   "/register",
   validateNewUserBody,
+  validateRegexNewUser,
   validateUniqueUser,
   (req, res) => {
     const { first_name, last_name, username, email, password, role } = req.body;
