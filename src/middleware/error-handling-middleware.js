@@ -3,9 +3,10 @@ const Category = require("../database/models/categories-models");
 
 module.exports = {
   validateUsername,
-  validateUniqueUsername,
+  validateUniqueUser,
   validateNewTicketBody,
   validateNewUserBody,
+  validateRegexNewUser,
   validateLoginBody,
   validateCommentBody,
   validateNewCategoryBody
@@ -26,17 +27,34 @@ function validateUsername(req, res, next) {
     });
 }
 
-function validateUniqueUsername(req, res, next) {
-  User.findUserBy(req.body)
-    .then(user => {
-      if (!user) {
+function validateUniqueUser(req, res, next) {
+  User.getAllUsers()
+    .then(users => {
+      const usernames = users.map(curr => curr.username);
+      const emails = users.map(curr => curr.email);
+      if (
+        !usernames.includes(req.body.username) &&
+        !emails.includes(req.body.email)
+      ) {
         next();
+      } else if (
+        usernames.includes(req.body.username) &&
+        !emails.includes(req.body.email)
+      ) {
+        res.status(400).json(`Please create a unique username`);
+      } else if (
+        !usernames.includes(req.body.username) &&
+        emails.includes(req.body.email)
+      ) {
+        res.status(400).json(`This email already has an account`);
       } else {
-        res.status(400).json(`This is not a unique username`);
+        res
+          .status(400)
+          .json(`Please provide a unqiue username and an original email`);
       }
     })
     .catch(error => {
-      res.status(400).json(`Error validating unique username`);
+      res.status(400).json(`Error validating unique user data`);
     });
 }
 
@@ -56,15 +74,11 @@ function validateNewTicketBody(req, res, next) {
   ) {
     res
       .status(400)
-      .json(
-        `Please provide a valid title, content, status, category and student`
-      );
+      .json(`Please provide a valid title, content, category and student`);
   } else {
     res
       .status(400)
-      .json(
-        `You must provide a valid title, content, status, category and student`
-      );
+      .json(`You must provide a valid title, content, category and student`);
   }
 }
 
@@ -95,6 +109,38 @@ function validateNewUserBody(req, res, next) {
       .json(
         `You must provide your first and last name, a unique username, password and your role.`
       );
+  }
+}
+
+function validateRegexNewUser(req, res, next) {
+  const emailRegex = new RegExp(
+    "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+  );
+  const nameRegex = new RegExp("^[a-zA-Z\u00C0-\u00FF]*$");
+  const roleRegex = new RegExp("^(Helper|Student)$");
+  if (req.body.email.match(emailRegex)) {
+    if (
+      req.body.first_name.match(nameRegex) &&
+      req.body.last_name.match(nameRegex)
+    ) {
+      if (req.body.role.match(roleRegex)) {
+        next();
+      } else {
+        res
+          .status(400)
+          .json(
+            `You must provide one of the following valid roles: "Helper" or "Student".`
+          );
+      }
+    } else {
+      res
+        .status(400)
+        .json(
+          `You first_name and last_name can only include letters. No numbers or special characters are accepted`
+        );
+    }
+  } else {
+    res.status(400).json(`You must provide a valid email address.`);
   }
 }
 

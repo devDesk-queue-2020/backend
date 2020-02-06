@@ -51,7 +51,7 @@ function getTicketById(id) {
       "users.username",
       "categories.category_name"
     )
-    .where("ticket_id", "=", id)
+    .where("tickets.id", "=", id)
     .first();
 }
 

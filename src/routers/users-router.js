@@ -7,8 +7,9 @@ const { auth, helperAuth } = require("../middleware/authentication-middleware");
 const {
   validateNewUserBody,
   validateUsername,
-  validateUniqueUsername,
-  validateLoginBody
+  validateUniqueUser,
+  validateLoginBody,
+  validateRegexNewUser
 } = require("../middleware/error-handling-middleware");
 const sendMail = require('./mail')
 
@@ -34,7 +35,8 @@ function makeToken(user, status) {
 router.post(
   "/register",
   validateNewUserBody,
-  validateUniqueUsername,
+  validateRegexNewUser,
+  validateUniqueUser,
   (req, res) => {
     const { first_name, last_name, username, email, password, role } = req.body;
     const bcryptHash = bcrypt.hashSync(password, 10);
