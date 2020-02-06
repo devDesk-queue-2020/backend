@@ -28,7 +28,6 @@ describe("comment-module.js module", () => {
       });
       expect(comment).toMatchObject({
         content: "This is a test comment",
-        author_id: "amin",
         ticket_id: 1
       });
     });
@@ -38,6 +37,9 @@ describe("comment-module.js module", () => {
 
   describe("getAllComments()", () => {
     it("returns an array of comments", async () => {
+      let comments;
+      comments = await Comment.getAllComments();
+      expect(comments).toHaveLength(0);
       await db("comments").insert({
         content: "This is the first test comment",
         author_id: 1,
@@ -45,10 +47,10 @@ describe("comment-module.js module", () => {
       });
       await db("comments").insert({
         content: "This is the second test comment",
-        author_id: 2,
+        author_id: 1,
         ticket_id: 1
       });
-      const comments = await db("comments");
+      comments = await Comment.getAllComments();
       expect(comments).toHaveLength(2);
     });
   });
@@ -69,7 +71,6 @@ describe("comment-module.js module", () => {
       const comment = await Comment.getCommentById(id);
       expect(comment).toMatchObject({
         content: "This is the first test comment",
-        author_id: "amin",
         ticket_id: 1
       });
     });
@@ -102,7 +103,6 @@ describe("comment-module.js module", () => {
       });
       expect(comment).toMatchObject({
         content: "This is the updated test comment",
-        author_id: "amin",
         ticket_id: 1
       });
     });

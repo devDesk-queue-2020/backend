@@ -33,8 +33,8 @@ router.get("/:id", auth, (req, res) => {
 router.post("/", auth, validateCommentBody, (req, res) => {
   Comment.addNewComment(req.body)
     .then(comment => {
-      Ticket.updateTicketStatus(req.body.ticket_id);
       res.status(201).json(comment);
+      Ticket.getTicketById(comment.ticket_id);
     })
     .catch(error => {
       res.status(500).json(error.message);
@@ -49,7 +49,7 @@ router.put("/:id", auth, validateCommentBody, (req, res) => {
   Comment.updateComment(id, changes)
     .then(comment => {
       if (comment) {
-        Ticket.updateTicketStatus(req.body.ticket_id);
+        Ticket.updateTicketStatus(comment.ticket_id);
         res
           .status(202)
           .json({ message: `Comment has been successfully updated`, comment });

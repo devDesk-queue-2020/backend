@@ -150,9 +150,11 @@ async function updateTicket(id, ticket) {
 }
 
 function updateTicketStatus(id) {
-  return db("ticket")
+  const oldTicket = db("tickets").where({ id });
+
+  return db("tickets")
     .where({ id })
-    .update({ status: "Processing" });
+    .update({ ...oldTicket, status: "Processing" });
 }
 
 // ---------------- DELETE ---------------- //
