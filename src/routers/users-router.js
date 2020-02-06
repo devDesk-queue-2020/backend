@@ -7,7 +7,7 @@ const { auth, helperAuth } = require("../middleware/authentication-middleware");
 const {
   validateNewUserBody,
   validateUsername,
-  validateUniqueUsername,
+  validateUniqueUser,
   validateLoginBody
 } = require("../middleware/error-handling-middleware");
 
@@ -33,7 +33,7 @@ function makeToken(user, status) {
 router.post(
   "/register",
   validateNewUserBody,
-  validateUniqueUsername,
+  validateUniqueUser,
   (req, res) => {
     const { first_name, last_name, username, email, password, role } = req.body;
 
