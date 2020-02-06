@@ -5,7 +5,7 @@ beforeEach(async () => {
   await db("tickets").truncate();
 });
 
-describe("ticket-routers.js module", () => {
+describe("ticket-models.js module", () => {
   // ---------------- INSERT ---------------- //
 
   describe("addNewTicket()", () => {
@@ -191,7 +191,7 @@ describe("ticket-routers.js module", () => {
   // ---------------- UPDATE ---------------- //
 
   describe("updateTicket()", () => {
-    it("returns an array of tickets with the correct length", async () => {
+    it("returns the updated ticket object", async () => {
       const newTicket = await db("tickets").insert({
         title: "Test Ticket 1",
         content: "This is a test Ticket",
