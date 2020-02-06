@@ -8,21 +8,39 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
+Open the project folder
 ```
-Give the example
+npm install
+```
+```
+npm run server
+```
+The port will be 5000, you can change it in the .env file.
+
+## Endpoints
+
+there are in total 21 different Endpoints sorted in 4 Categories.
+
+Users:
+```
+/api/users
+```
+Ticket:
+```
+/api/tickets
+```
+Comments:
+```
+/api/comments
+```
+Users:
+```
+/api/category
 ```
 
-And repeat
+To see every single endpoint, please check the Postman Docs here:
 
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+* [DOCS](https://documenter.getpostman.com/view/10271984/SWTEcwFi?version=latest#intro) - created with Postman
 
 ## Running the tests
 
