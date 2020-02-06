@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/devDesk-queue-2020/backend.svg?branch=develop)](https://travis-ci.org/devDesk-queue-2020/backend)
+[![Coverage Status](https://coveralls.io/repos/github/devDesk-queue-2020/backend/badge.svg?branch=develop)](https://coveralls.io/github/devDesk-queue-2020/backend?branch=develop)
+
 # DevDesk Backend by Lambda EU4 Team
 
 This Backend was created for the Node Build Week Project of Emma Andrews & Niklas Becker called DevDesk.
