@@ -123,7 +123,7 @@ router.get("/:id", auth, (req, res) => {
       tickets = studentTickets;
     })
     .catch(error => {
-      res.status(500).json(error - message);
+      res.status(500).json(error.message);
     });
 
   UserDB.findUserById(id)

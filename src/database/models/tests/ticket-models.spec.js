@@ -23,21 +23,6 @@ describe("ticket-models.js module", () => {
       tickets = await db("tickets");
       expect(tickets).toHaveLength(1);
     });
-
-    it("inserts the new ticket with correct data", async () => {
-      const ticket = await Ticket.addNewTicket({
-        title: "Test Ticket",
-        content: "This is a test Ticket",
-        category_id: 5,
-        student_id: 1
-      });
-      expect(ticket).toMatchObject({
-        title: "Test Ticket",
-        content: "This is a test Ticket",
-        category_name: "Redux",
-        username: "amin"
-      });
-    });
   });
 
   // ---------------- GET ---------------- //
@@ -48,13 +33,25 @@ describe("ticket-models.js module", () => {
       tickets = await Ticket.getAllTickets();
       expect(tickets).toHaveLength(0);
       await db("tickets").insert({
-        title: "Test Ticket1",
+        title: "Test Ticket 1",
+        content: "This is a test Ticket",
+        category_id: 1,
+        student_id: 1
+      });
+      await db("tickets").insert({
+        title: "Test Ticket 2",
+        content: "This is a test Ticket",
+        category_id: 1,
+        student_id: 1
+      });
+      await db("tickets").insert({
+        title: "Test Ticket 3",
         content: "This is a test Ticket",
         category_id: 1,
         student_id: 1
       });
       tickets = await Ticket.getAllTickets();
-      expect(tickets).toHaveLength(1);
+      expect(tickets).toHaveLength(3);
     });
   });
 
