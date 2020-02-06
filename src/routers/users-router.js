@@ -10,6 +10,7 @@ const {
   validateUniqueUsername,
   validateLoginBody
 } = require("../middleware/error-handling-middleware");
+const sendMail = require('./mail')
 
 function makeToken(user, status) {
   const payload = {
@@ -36,9 +37,7 @@ router.post(
   validateUniqueUsername,
   (req, res) => {
     const { first_name, last_name, username, email, password, role } = req.body;
-
     const bcryptHash = bcrypt.hashSync(password, 10);
-
     const user = {
       first_name,
       last_name,
@@ -47,9 +46,15 @@ router.post(
       password: bcryptHash,
       role
     };
-
     UserDB.addUser(user)
       .then(saved => {
+        sendMail(user.email)
+        .then(res => {
+            console.log(res);
+          })
+        .catch(err => {
+            console.log(err);
+        })
         res.status(201).json({
           success: "Successfully created new User",
           userData: { ...user, password: "ENCRYPTED" }
