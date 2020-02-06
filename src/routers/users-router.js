@@ -12,6 +12,9 @@ const {
   validateRegexNewUser
 } = require("../middleware/error-handling-middleware");
 const sendMail = require("./mail");
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 function makeToken(user, status) {
   const payload = {

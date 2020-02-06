@@ -1,5 +1,7 @@
 const server = require("./server");
 const request = require("supertest");
+const dotenv = require("dotenv");
+dotenv.config();
 
 describe("server.js module", () => {
   it("has the right environment for DB_ENV", done => {
