@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env DB_ENV=testing jest --watchAll --verbose --coverage",
+    "test": "cross-env DB_ENV=testing jest --verbose --coverage",
     "start": "node index.js",
     "server": "nodemon index.js",
     "coveralls": "jest --coverage --testTimeout=10000  && cat ./coverage/lcov.info | coveralls"
