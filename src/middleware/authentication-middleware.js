@@ -1,14 +1,17 @@
 const jwt = require("jsonwebtoken");
+const secret = require("../secretConfig");
+
 
 function auth(req, res, next) {
   const token = req.headers.authorization;
+  // || "thesecret",
 
   if (token) {
-    jwt.verify(token, process.env.JWT_SECRET || "thesecret", (err, decoded) => {
+    jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         res.status(401).json({
           message: "Token invalid! Access denied!"
-        });
+        })
       } else {
         req.decodedToken = decoded;
         next();
@@ -24,7 +27,7 @@ function helperAuth(req, res, next) {
   if (token) {
     jwt.verify(
       token,
-      process.env.JWT_SECRET || "thesecret",
+      secret,
       { audience: "staffHelper" },
       (err, decoded) => {
         if (err) {

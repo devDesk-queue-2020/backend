@@ -101,13 +101,13 @@ function validateNewUserBody(req, res, next) {
     res
       .status(400)
       .json(
-        `Please provide your first and last name, a unique username, password and your role.`
+        `Please provide your first and last name, an email, a unique username, password and your role.`
       );
   } else {
     res
       .status(400)
       .json(
-        `You must provide your first and last name, a unique username, password and your role.`
+        `You must provide your first and last name, an email, a unique username, password and your role.`
       );
   }
 }

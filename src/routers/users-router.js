@@ -14,6 +14,9 @@ const {
 const sendMail = require("./mail");
 const dotenv = require("dotenv");
 dotenv.config();
+const secret = require("../secretConfig")
+// || "thesecret",
+
 
 
 function makeToken(user, status) {
@@ -29,7 +32,7 @@ function makeToken(user, status) {
   };
   const token = jwt.sign(
     payload,
-    process.env.JWT_SECRET || "thesecret",
+    secret,
     options
   );
   return token;
