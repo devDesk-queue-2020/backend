@@ -8,8 +8,8 @@ dotenv.config();
 
 
 describe('server.js module', () => {
-  it('has the right environment for DB_ENV', () => {
-    expect(process.env.DB_ENV).toBe('testing')
+  it('has the right environment for NODE_ENV', () => {
+    expect(process.env.NODE_ENV).toBe('testing')
   })
 
   describe('bad request tests', () => {
