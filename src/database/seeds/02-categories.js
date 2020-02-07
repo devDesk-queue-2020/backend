@@ -1,8 +1,8 @@
-exports.seed = function(knex) {
+exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex("categories")
-    .truncate()
-    .then(function() {
+    .del()
+    .then(function () {
       // Inserts seed entries
       return knex("categories").insert([
         { category_name: "HTML" },

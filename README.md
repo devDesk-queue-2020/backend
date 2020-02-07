@@ -64,10 +64,10 @@ ADD SCREENSHOT HERE
 
 ## Deployment
 
-We recommend deploying this backend on Heroku with Postgres. A matching JWT-Secret & the following DB_ENV variable needs to be decleared in Herokus config vars.
+We recommend deploying this backend on Heroku with Postgres. A matching JWT-Secret & the following NODE_ENV variable needs to be decleared in Herokus config vars.
 
 ```
-DB_ENV          production
+NODE_ENV          production
 JWT_SECRET      exampleSecret
 ```
 

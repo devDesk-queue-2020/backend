@@ -1,8 +1,8 @@
-exports.seed = function(knex) {
+exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex("comments")
-    .truncate()
-    .then(function() {
+    .del()
+    .then(function () {
       // Inserts seed entries
       return knex("comments").insert([
         { content: "I am a comment", author_id: 2, ticket_id: 1 },
